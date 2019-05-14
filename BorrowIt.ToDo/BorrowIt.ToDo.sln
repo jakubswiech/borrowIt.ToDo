@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorrowIt.ToDo", "BorrowIt.ToDo\BorrowIt.ToDo.csproj", "{199ED6AC-403A-468C-8C53-78B9062B87D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorrowIt.ToDo.Domain", "BorrowIt.ToDo.Domain\BorrowIt.ToDo.Domain.csproj", "{C3F9F34C-A9C7-453F-9897-58D89301AC89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{199ED6AC-403A-468C-8C53-78B9062B87D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{199ED6AC-403A-468C-8C53-78B9062B87D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{199ED6AC-403A-468C-8C53-78B9062B87D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{199ED6AC-403A-468C-8C53-78B9062B87D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F9F34C-A9C7-453F-9897-58D89301AC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F9F34C-A9C7-453F-9897-58D89301AC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F9F34C-A9C7-453F-9897-58D89301AC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F9F34C-A9C7-453F-9897-58D89301AC89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
