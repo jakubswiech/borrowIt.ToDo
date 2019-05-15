@@ -13,6 +13,9 @@ using BorrowIt.Common.Infrastructure.IoC;
 using BorrowIt.Common.Mongo.IoC;
 using BorrowIt.Common.Mongo.Repositories;
 using BorrowIt.Common.Rabbit.IoC;
+using BorrowIt.ToDo.Application.ToDoLists;
+using BorrowIt.ToDo.Domain.Model.Users;
+using BorrowIt.ToDo.Infrastructure.Entities.ToDoLists;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -77,27 +80,27 @@ namespace BorrowIt.ToDo
             builder.RegisterModule(new MongoDbModule(Configuration, "mongoDb"));
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                 .AsImplementedInterfaces();
-//            builder.AddRepositories<IUsersRepository>()
-//                .AddGenericRepository(typeof(GenericMongoRepository<,>));
-//            builder.AddServices<IUsersService>();
+            builder.AddRepositories<IToDoListMongoRepository>()
+                .AddGenericRepository(typeof(GenericMongoRepository<,>));
+            builder.AddServices<IToDoListsService>();
 //            builder.RegisterAssemblyTypes(typeof(CreateUserCommand).Assembly)
 //                .AsClosedTypesOf(typeof(ICommandHandler<>));
             builder.RegisterType<CommandDispatcher>().As<ICommandDispatcher>().InstancePerLifetimeScope();
-//            builder.Register(ctx =>
-//            {
-//                var assemblies = new List<Assembly> {typeof(UsersMappingProfile).Assembly, typeof(CreateUserCommand).Assembly};
-//                
-//                var mapperConfig = new MapperConfiguration(x =>
-//                    x.AddProfiles(assemblies));
-//
-//                return mapperConfig.CreateMapper();
-//            }).As<IMapper>().InstancePerLifetimeScope();
+            builder.Register(ctx =>
+            {
+                var assemblies = new List<Assembly> {typeof(ToDoListMappingProfile).Assembly};
+                
+                var mapperConfig = new MapperConfiguration(x =>
+                    x.AddProfiles(assemblies));
+
+                return mapperConfig.CreateMapper();
+            }).As<IMapper>().InstancePerLifetimeScope();
             builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>().InstancePerLifetimeScope();
 //            builder.RegisterAssemblyTypes(typeof(SignInQuery).Assembly)
 //                .AsClosedTypesOf(typeof(IQueryHandler<,>));
             builder.Populate(services);
-//            builder.RegisterAssemblyTypes(typeof(IUserFactory).Assembly).Where(x => x.Name.EndsWith("Factory"))
-//                .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(IUserFactory).Assembly).Where(x => x.Name.EndsWith("Factory"))
+                .AsImplementedInterfaces();
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);

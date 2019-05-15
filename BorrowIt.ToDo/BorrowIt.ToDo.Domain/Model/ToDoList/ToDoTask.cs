@@ -34,7 +34,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             ModifyDate = CreateDate;
         }
         
-        public void Update(Guid id, string name, string description)
+        public void Update(string name, string description)
         {
             ValidateStatus();
             ModifyDate = DateTime.UtcNow;
@@ -133,6 +133,11 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
         {
             description.ValidateNullOrEmptyString(nameof(description));
             Description = description;
+        }
+
+        public void InsertSubTasks(IEnumerable<ToDoSubTask> subTasks)
+        {
+            _subTasks.AddRange(subTasks);
         }
     }
 }

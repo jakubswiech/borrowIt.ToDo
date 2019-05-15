@@ -1,7 +1,7 @@
 using AutoMapper;
 using BorrowIt.ToDo.Domain.Model.ToDoList;
 
-namespace BorrowIt.ToDo.Infrastructure.ToDoSubTasks
+namespace BorrowIt.ToDo.Infrastructure.Entities.ToDoSubTasks
 {
     public class ToDoSubTaskMappingProfile : Profile
     {

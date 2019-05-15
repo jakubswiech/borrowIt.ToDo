@@ -19,4 +19,9 @@
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="4.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\BorrowIt.ToDo.Application\BorrowIt.ToDo.Application.csproj" />
+      <ProjectReference Include="..\BorrowIt.ToDo.Infrastructure\BorrowIt.ToDo.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -88,12 +88,28 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
         public void AddTask(TaskDataStructure dataStructure)
         {
             var task = new ToDoTask(dataStructure.Id, Id, dataStructure.Name, dataStructure.Description);
+            _tasks.Add(task);
+        }
+
+        public void UpdateTask(TaskDataStructure dataStructure)
+        {
+            var task = Tasks.SingleOrDefault(x => x.Id == dataStructure.Id);
+            if (task == null)
+            {
+                throw new BusinessLogicException("task_not_found");
+            }
+            task.Update(dataStructure.Name, dataStructure.Description);
         }
 
         private void SetName(string name)
         {
             name.ValidateNullOrEmptyString(nameof(name));
             Name = name;
+        }
+        
+        public void InsertTasks(IEnumerable<ToDoTask> tasks)
+        {
+            _tasks.AddRange(tasks);
         }
         
         private void ValidateStatus()

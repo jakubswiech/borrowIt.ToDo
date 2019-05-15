@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorrowIt.ToDo.Domain", "Bor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorrowIt.ToDo.Infrastructure", "BorrowIt.ToDo.Infrastructure\BorrowIt.ToDo.Infrastructure.csproj", "{EEA1EA98-616B-4EF4-A762-F66846C59BE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorrowIt.ToDo.Application", "BorrowIt.ToDo.Application\BorrowIt.ToDo.Application.csproj", "{93EE6A8C-D1A3-4576-B3E8-A0F775967575}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{EEA1EA98-616B-4EF4-A762-F66846C59BE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEA1EA98-616B-4EF4-A762-F66846C59BE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEA1EA98-616B-4EF4-A762-F66846C59BE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93EE6A8C-D1A3-4576-B3E8-A0F775967575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93EE6A8C-D1A3-4576-B3E8-A0F775967575}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93EE6A8C-D1A3-4576-B3E8-A0F775967575}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93EE6A8C-D1A3-4576-B3E8-A0F775967575}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
