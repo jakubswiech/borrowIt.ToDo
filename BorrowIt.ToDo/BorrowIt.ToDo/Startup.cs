@@ -12,10 +12,14 @@ using BorrowIt.Common.Infrastructure.Implementations;
 using BorrowIt.Common.Infrastructure.IoC;
 using BorrowIt.Common.Mongo.IoC;
 using BorrowIt.Common.Mongo.Repositories;
+using BorrowIt.Common.Rabbit.Abstractions;
 using BorrowIt.Common.Rabbit.IoC;
 using BorrowIt.ToDo.Application.ToDoLists;
+using BorrowIt.ToDo.Application.Users.Handlers;
 using BorrowIt.ToDo.Domain.Model.Users;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoLists;
+using BorrowIt.ToDo.Infrastructure.Inboud.Messages;
+using BorrowIt.ToDo.Infrastructure.Repositories.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -80,8 +84,10 @@ namespace BorrowIt.ToDo
             builder.RegisterModule(new MongoDbModule(Configuration, "mongoDb"));
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                 .AsImplementedInterfaces();
-            builder.AddRepositories<IToDoListMongoRepository>()
+            builder.AddRepositories<UserRepository>()
                 .AddGenericRepository(typeof(GenericMongoRepository<,>));
+            builder.RegisterAssemblyTypes(typeof(UserChangedEventHandler).Assembly)
+                .AsClosedTypesOf(typeof(IMessageHandler<>));
             builder.AddServices<IToDoListsService>();
 //            builder.RegisterAssemblyTypes(typeof(CreateUserCommand).Assembly)
 //                .AsClosedTypesOf(typeof(ICommandHandler<>));
@@ -134,6 +140,9 @@ namespace BorrowIt.ToDo
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+            
+            app.UseRabbitMq()
+                .SubscribeMessage<UserChangedEvent>();
         }
     }
 }
