@@ -15,6 +15,9 @@ using BorrowIt.Common.Mongo.Repositories;
 using BorrowIt.Common.Rabbit.Abstractions;
 using BorrowIt.Common.Rabbit.IoC;
 using BorrowIt.ToDo.Application.ToDoLists;
+using BorrowIt.ToDo.Application.ToDoLists.Commands;
+using BorrowIt.ToDo.Application.ToDoLists.Mappings;
+using BorrowIt.ToDo.Application.ToDoLists.Queries;
 using BorrowIt.ToDo.Application.Users.Handlers;
 using BorrowIt.ToDo.Domain.Model.Users;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoLists;
@@ -89,12 +92,16 @@ namespace BorrowIt.ToDo
             builder.RegisterAssemblyTypes(typeof(UserChangedEventHandler).Assembly)
                 .AsClosedTypesOf(typeof(IMessageHandler<>));
             builder.AddServices<IToDoListsService>();
-//            builder.RegisterAssemblyTypes(typeof(CreateUserCommand).Assembly)
-//                .AsClosedTypesOf(typeof(ICommandHandler<>));
+            builder.RegisterAssemblyTypes(typeof(CreateToDoListCommand).Assembly)
+                .AsClosedTypesOf(typeof(ICommandHandler<>));
             builder.RegisterType<CommandDispatcher>().As<ICommandDispatcher>().InstancePerLifetimeScope();
             builder.Register(ctx =>
             {
-                var assemblies = new List<Assembly> {typeof(ToDoListMappingProfile).Assembly};
+                var assemblies = new List<Assembly>
+                {
+                    typeof(ToDoListMappingProfile).Assembly, 
+                    typeof(ToDoListCommandMappingProfile).Assembly
+                };
                 
                 var mapperConfig = new MapperConfiguration(x =>
                     x.AddProfiles(assemblies));
@@ -102,8 +109,8 @@ namespace BorrowIt.ToDo
                 return mapperConfig.CreateMapper();
             }).As<IMapper>().InstancePerLifetimeScope();
             builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>().InstancePerLifetimeScope();
-//            builder.RegisterAssemblyTypes(typeof(SignInQuery).Assembly)
-//                .AsClosedTypesOf(typeof(IQueryHandler<,>));
+            builder.RegisterAssemblyTypes(typeof(ToDoListQuery).Assembly)
+                .AsClosedTypesOf(typeof(IQueryHandler<,>));
             builder.Populate(services);
             builder.RegisterAssemblyTypes(typeof(IUserFactory).Assembly).Where(x => x.Name.EndsWith("Factory"))
                 .AsImplementedInterfaces();

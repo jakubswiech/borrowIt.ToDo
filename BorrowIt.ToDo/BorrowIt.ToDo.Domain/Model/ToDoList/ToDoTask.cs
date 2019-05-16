@@ -28,10 +28,15 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             Id = id;
             ListId = listId;
             SetName(name);
-            SetName(description);
+            SetDescription(description);
             Status = ToDoListStatus.Created;
             CreateDate = DateTime.UtcNow;
             ModifyDate = CreateDate;
+        }
+
+        private ToDoTask()
+        {
+            
         }
         
         public void Update(string name, string description)

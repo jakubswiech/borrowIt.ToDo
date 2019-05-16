@@ -10,6 +10,11 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList.DataStructures
             Name = name;
         }
 
+        private ListDataStructure()
+        {
+            
+        }
+
         public Guid? Id { get; private set; }
         public string Name { get; private set; }
     }

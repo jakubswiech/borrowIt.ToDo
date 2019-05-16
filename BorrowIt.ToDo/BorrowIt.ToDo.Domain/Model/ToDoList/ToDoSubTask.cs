@@ -24,6 +24,11 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             ModifyDate = CreateDate;
         }
 
+        private ToDoSubTask()
+        {
+            
+        }
+
         public void Update(string name, string description)
         {
             ValidateStatus();

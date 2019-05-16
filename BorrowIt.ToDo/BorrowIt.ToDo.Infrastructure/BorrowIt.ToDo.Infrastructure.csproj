@@ -5,9 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="BorrowIt.Common" Version="1.0.4" />
-      <PackageReference Include="BorrowIt.Common.Mongo" Version="1.0.4" />
-      <PackageReference Include="BorrowIt.Common.Rabbit" Version="1.0.6" />
+      <PackageReference Include="BorrowIt.Common" Version="1.0.7" />
+      <PackageReference Include="BorrowIt.Common.Mongo" Version="1.0.7" />
+      <PackageReference Include="BorrowIt.Common.Rabbit" Version="1.0.7" />
     </ItemGroup>
 
     <ItemGroup>

@@ -5,18 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="BorrowIt.Common" Version="1.0.4" />
+      <PackageReference Include="BorrowIt.Common" Version="1.0.7" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\BorrowIt.ToDo.Domain\BorrowIt.ToDo.Domain.csproj" />
       <ProjectReference Include="..\BorrowIt.ToDo.Infrastructure\BorrowIt.ToDo.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ToDoLists\Commands" />
-      <Folder Include="ToDoLists\Handlers" />
-      <Folder Include="ToDoLists\Queries" />
     </ItemGroup>
 
 </Project>

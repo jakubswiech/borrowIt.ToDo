@@ -11,6 +11,11 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList.DataStructures
             Description = description;
         }
 
+        private TaskDataStructure()
+        {
+            
+        }
+
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
