@@ -11,10 +11,8 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Mappings
         public ToDoListCommandMappingProfile()
         {
             CreateMap<CreateToDoListCommand, ListDataStructure>();
-            CreateMap<CreateToDoTaskCommand, TaskDataStructure>()
-                .ForMember(x => x.Id, opt => opt.Ignore());
-            CreateMap<CreateToDoSubTaskCommand, SubTaskDataStructure>()
-                .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<CreateToDoTaskCommand, TaskDataStructure>();
+            CreateMap<CreateToDoSubTaskCommand, SubTaskDataStructure>();
 
             CreateMap<ToDoSubTask, ToDoSubTaskDto>()
                 .ForMember(x => x.Status,

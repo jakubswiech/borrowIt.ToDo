@@ -5,27 +5,21 @@ using AutoMapper;
 using BorrowIt.Common.Infrastructure.Abstraction;
 using BorrowIt.ToDo.Application.ToDoLists.DTOs;
 using BorrowIt.ToDo.Application.ToDoLists.Queries;
+using BorrowIt.ToDo.Application.ToDoLists.ReadModels;
 using BorrowIt.ToDo.Domain.Model.ToDoList;
 
 namespace BorrowIt.ToDo.Application.ToDoLists.Handlers
 {
     public class ToDoListQueryHandler : IQueryHandler<ToDoListQuery, ToDoListResultDto>
     {
-        private readonly IToDoListDomainRepository _toDoListDomainRepository;
-        private readonly IMapper _mapper;
+        private readonly IToDoListReadModel _readModel;
 
-        public ToDoListQueryHandler(IToDoListDomainRepository toDoListDomainRepository,
-            IMapper mapper)
+        public ToDoListQueryHandler(IToDoListReadModel readModel)
         {
-            _toDoListDomainRepository = toDoListDomainRepository;
-            _mapper = mapper;
+            _readModel = readModel;
         }
+
         public async Task<ToDoListResultDto> HandleAsync(ToDoListQuery query)
-        {
-            var toDoLists = await _toDoListDomainRepository.GetAllAsync();
-
-            var dtos = _mapper.Map<IEnumerable<ToDoListDto>>(toDoLists);
-            return new ToDoListResultDto() {Items = dtos.ToList() };
-        }
+            => await _readModel.GetToDoListResultDto(query);
     }
 }

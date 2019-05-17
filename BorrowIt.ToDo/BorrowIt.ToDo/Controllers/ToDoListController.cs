@@ -51,6 +51,7 @@ namespace BorrowIt.ToDo.Controllers
         [HttpPost("SubTasks")]
         public async Task<IActionResult> Post([FromBody] CreateToDoSubTaskCommand command)
         {
+            command.Id = command.Id ?? Guid.NewGuid();
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using BorrowIt.ToDo.Domain.Model.ToDoList;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoLists;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoSubTasks;
@@ -14,13 +16,16 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
         private readonly IToDoListMongoRepository _toDoListMongoRepository;
         private readonly IToDoTaskMongoRepository _toDoTaskMongoRepository;
         private readonly IToDoSubTaskMongoRepository _toDoSubTaskMongoRepository;
+        private readonly IMapper _mapper;
 
         public ToDoListRepository(IToDoListMongoRepository toDoListMongoRepository, 
-            IToDoTaskMongoRepository toDoTaskMongoRepository, IToDoSubTaskMongoRepository toDoSubTaskMongoRepository)
+            IToDoTaskMongoRepository toDoTaskMongoRepository, IToDoSubTaskMongoRepository toDoSubTaskMongoRepository,
+            IMapper mapper)
         {
             _toDoListMongoRepository = toDoListMongoRepository;
             _toDoTaskMongoRepository = toDoTaskMongoRepository;
             _toDoSubTaskMongoRepository = toDoSubTaskMongoRepository;
+            _mapper = mapper;
         }
         
         public async Task<ToDoList> PersistAsync(ToDoList toDoList)
@@ -40,9 +45,10 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
             return toDoList;
         }
 
-        public async Task<IEnumerable<ToDoList>> GetAllAsync()
+        public async Task<IEnumerable<ToDoList>> GetAllAsync(Expression<Func<ToDoList, bool>> predicate = null)
         {
-            var lists = (await _toDoListMongoRepository.GetAllAsync()).ToList();
+            var entityPredicate = _mapper.Map<Expression<Func<ToDoListEntity, bool>>>(predicate);
+            var lists = (await _toDoListMongoRepository.GetWithExpressionAsync(entityPredicate)).ToList();
 
             foreach (var list in lists)
             {

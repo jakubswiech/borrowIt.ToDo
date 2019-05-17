@@ -18,6 +18,7 @@ using BorrowIt.ToDo.Application.ToDoLists;
 using BorrowIt.ToDo.Application.ToDoLists.Commands;
 using BorrowIt.ToDo.Application.ToDoLists.Mappings;
 using BorrowIt.ToDo.Application.ToDoLists.Queries;
+using BorrowIt.ToDo.Application.ToDoLists.ReadModels;
 using BorrowIt.ToDo.Application.Users.Handlers;
 using BorrowIt.ToDo.Domain.Model.Users;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoLists;
@@ -111,6 +112,8 @@ namespace BorrowIt.ToDo
             builder.RegisterType<QueryDispatcher>().As<IQueryDispatcher>().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(typeof(ToDoListQuery).Assembly)
                 .AsClosedTypesOf(typeof(IQueryHandler<,>));
+            builder.RegisterAssemblyTypes(typeof(IToDoListReadModel).Assembly).Where(x => x.Name.EndsWith("ReadModel"))
+                .AsImplementedInterfaces();
             builder.Populate(services);
             builder.RegisterAssemblyTypes(typeof(IUserFactory).Assembly).Where(x => x.Name.EndsWith("Factory"))
                 .AsImplementedInterfaces();

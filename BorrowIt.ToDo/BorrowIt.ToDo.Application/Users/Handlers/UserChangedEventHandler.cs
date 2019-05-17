@@ -5,6 +5,7 @@ using BorrowIt.Common.Rabbit.Abstractions;
 using BorrowIt.ToDo.Domain.Model.Users;
 using BorrowIt.ToDo.Infrastructure.Inboud.Messages;
 
+
 namespace BorrowIt.ToDo.Application.Users.Handlers
 {
     public class UserChangedEventHandler : IMessageHandler<UserChangedEvent>
