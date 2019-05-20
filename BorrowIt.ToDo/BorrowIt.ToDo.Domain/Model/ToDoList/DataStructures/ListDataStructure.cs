@@ -4,10 +4,11 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList.DataStructures
 {
     public class ListDataStructure
     {
-        public ListDataStructure(Guid? id, string name)
+        public ListDataStructure(Guid? id, Guid userId, string name)
         {
             Id = id;
             Name = name;
+            UserId = userId;
         }
 
         private ListDataStructure()
@@ -16,6 +17,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList.DataStructures
         }
 
         public Guid? Id { get; private set; }
+        public Guid UserId { get; private set; }
         public string Name { get; private set; }
     }
 }

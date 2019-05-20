@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using BorrowIt.Common.Domain;
 using BorrowIt.Common.Exceptions;
 using BorrowIt.Common.Extensions;
@@ -17,6 +18,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
         public ToDoSubTask(Guid id, Guid taskId, string name, string description)
         {
             Id = id;
+            TaskId = taskId;
             SetName(name);
             SetDescription(description);
             Status = ToDoListStatus.Created;

@@ -5,9 +5,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using BorrowIt.ToDo.Domain.Model.ToDoList;
+using BorrowIt.ToDo.Domain.Model.ToDoList.DataStructures;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoLists;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoSubTasks;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoTasks;
+using MongoDB.Driver;
 
 namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
 {
@@ -45,10 +47,13 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
             return toDoList;
         }
 
-        public async Task<IEnumerable<ToDoList>> GetAllAsync(Expression<Func<ToDoList, bool>> predicate = null)
+        public async Task<IEnumerable<ToDoList>> GetAllAsync(ListQueryDataStructure queryDataStructure)
         {
-            var entityPredicate = _mapper.Map<Expression<Func<ToDoListEntity, bool>>>(predicate);
-            var lists = (await _toDoListMongoRepository.GetWithExpressionAsync(entityPredicate)).ToList();
+            var builder = Builders<ToDoListEntity>.Filter;
+
+            var filter = ApplyWhereStatement(builder, queryDataStructure);
+            
+            var lists = (await _toDoListMongoRepository.GetWithExpressionAsync(filter)).ToList();
 
             foreach (var list in lists)
             {
@@ -66,7 +71,33 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
             return lists;
         }
 
-        public async Task<ToDoList> GetOneAsync(Guid id)
+        private FilterDefinition<ToDoListEntity> ApplyWhereStatement(FilterDefinitionBuilder<ToDoListEntity> builder, ListQueryDataStructure queryDataStructure)
+        {
+            FilterDefinition<ToDoListEntity> filter = builder.Empty;
+            if (queryDataStructure.Id.HasValue)
+            {
+                filter = filter & (builder.Eq(x => x.Id, queryDataStructure.Id.Value));
+            }
+            
+            if (queryDataStructure.UserId.HasValue)
+            {
+                filter = filter & (builder.Eq(x => x.UserId, queryDataStructure.UserId.Value));
+            }
+            
+            if (!string.IsNullOrWhiteSpace(queryDataStructure.Name))
+            {
+                filter = filter & (builder.Regex(x => x.Name, queryDataStructure.Name));
+            }
+
+            if (queryDataStructure.Status.HasValue)
+            {
+                filter = filter & (builder.Eq(x => x.Status, queryDataStructure.Status.Value));
+            }
+
+            return filter;
+        }
+
+        public async Task<ToDoList> GetOneAsync(Guid id)    
         {
             var list = await _toDoListMongoRepository.GetAsync(id);
             

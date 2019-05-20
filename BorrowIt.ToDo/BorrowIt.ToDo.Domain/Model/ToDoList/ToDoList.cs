@@ -24,8 +24,9 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             private set => _tasks = value.ToList();
         }
         
-        public ToDoList(Guid userId, string name)
+        public ToDoList(Guid id, Guid userId, string name)
         {
+            Id = id;
             UserId = userId;
             SetName(name);
             CreateDate = DateTime.UtcNow;

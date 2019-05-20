@@ -32,6 +32,13 @@ namespace BorrowIt.ToDo.Controllers
 
             return Ok();
         }
+        [HttpPut("ChangeStatus")]
+        public async Task<IActionResult> Put([FromBody] ChangeToDoListStatusCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+
+            return Ok();
+        }
         
         [HttpPost("Tasks")]
         public async Task<IActionResult> Post([FromBody] CreateToDoTaskCommand command)
@@ -48,6 +55,14 @@ namespace BorrowIt.ToDo.Controllers
 
             return Ok();
         }
+
+        [HttpPut("Tasks/ChangeStatus")]
+        public async Task<IActionResult> Put([FromBody] ChangeToDoTaskStatusCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+
+            return Ok();
+        }
         [HttpPost("SubTasks")]
         public async Task<IActionResult> Post([FromBody] CreateToDoSubTaskCommand command)
         {
@@ -59,6 +74,13 @@ namespace BorrowIt.ToDo.Controllers
 
         [HttpPut("SubTasks")]
         public async Task<IActionResult> Put([FromBody] UpdateToDoSubTaskCommand command)
+        {
+            await CommandDispatcher.DispatchAsync(command);
+
+            return Ok();
+        }
+        [HttpPut("SubTasks/ChangeStatus")]
+        public async Task<IActionResult> Put([FromBody] ChangeToDoSubTaskStatusCommand command)
         {
             await CommandDispatcher.DispatchAsync(command);
 
