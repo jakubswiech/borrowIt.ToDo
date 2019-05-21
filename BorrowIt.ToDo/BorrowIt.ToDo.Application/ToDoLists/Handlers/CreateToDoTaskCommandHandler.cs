@@ -22,7 +22,7 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Handlers
         public async Task HandleAsync(CreateToDoTaskCommand command)
         {
             var dataStructure = _mapper.Map<TaskDataStructure>(command);
-            await _toDoListsService.AddTaskAsync(dataStructure, command.ListId);
+            await _toDoListsService.AddTaskAsync(dataStructure, command.ListId, command.UserId.Value);
         }
     }
 }

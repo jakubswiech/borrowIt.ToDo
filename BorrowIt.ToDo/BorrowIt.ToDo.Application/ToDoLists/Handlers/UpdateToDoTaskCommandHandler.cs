@@ -21,7 +21,7 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Handlers
         public async Task HandleAsync(UpdateToDoTaskCommand command)
         {
             var dataStructure = _mapper.Map<TaskDataStructure>(command);
-            await _toDoListsService.UpdateTaskAsync(dataStructure, command.ListId);
+            await _toDoListsService.UpdateTaskAsync(dataStructure, command.ListId, command.UserId.Value);
         }
     }
 }

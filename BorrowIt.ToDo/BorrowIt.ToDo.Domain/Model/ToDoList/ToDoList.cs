@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BorrowIt.Common.Domain;
 using BorrowIt.Common.Exceptions;
 using BorrowIt.Common.Extensions;
@@ -51,7 +52,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
 
         public void Complete()
         {
-            ValidateStatus();
+            ValidateStatus(Status != ToDoListStatus.OnHold);
             if (!Tasks.Any() || Tasks.Any(x => x.Status != ToDoListStatus.Done))
             {
                 throw new BusinessLogicException("tasks_not_done");
@@ -82,7 +83,10 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
 
         public void StartProgress()
         {
-            ValidateStatus();
+            if (Status != ToDoListStatus.Created || Status != ToDoListStatus.OnHold)
+            {
+                throw new BusinessLogicException("invalid_list_status");
+            }
             Status = ToDoListStatus.InProgress;
         }
 
@@ -113,10 +117,10 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             _tasks.AddRange(tasks);
         }
         
-        private void ValidateStatus()
+        private void ValidateStatus(bool predicate = true)
         {
             if (Status == ToDoListStatus.Done || Status == ToDoListStatus.Archived ||
-                Status == ToDoListStatus.Cancelled)
+                Status == ToDoListStatus.Cancelled || !predicate)
             {
                 throw new BusinessLogicException("invalid_list_status");
             }

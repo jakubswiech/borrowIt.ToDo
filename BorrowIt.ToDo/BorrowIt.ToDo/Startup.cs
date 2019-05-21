@@ -53,7 +53,13 @@ namespace BorrowIt.ToDo
             services.AddCors();
             services.AddSwaggerGen(ctx =>
             {
-                ctx.SwaggerDoc("v1", new Info() {Title = "BorrowIt.Auth", Version = "v1"});
+                
+                var security = new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[] { }},
+                };
+                
+                ctx.SwaggerDoc("v1", new Info() {Title = "BorrowIt.ToDo", Version = "v1"});
                 
                 ctx.AddSecurityDefinition("Bearer", new ApiKeyScheme
                 {
@@ -62,6 +68,8 @@ namespace BorrowIt.ToDo
                     In = "header",
                     Type = "apiKey"
                 });
+                
+                ctx.AddSecurityRequirement(security);
             });
             var secret = Configuration["Secret"];
             var key = Encoding.ASCII.GetBytes(Configuration["Secret"]);
@@ -72,11 +80,8 @@ namespace BorrowIt.ToDo
                 })
                 .AddJwtBearer(x =>
                 {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidateIssuer = false,
                         ValidateAudience = false

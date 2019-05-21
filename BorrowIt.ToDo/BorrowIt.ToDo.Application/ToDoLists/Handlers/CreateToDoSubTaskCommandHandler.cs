@@ -21,7 +21,7 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Handlers
         public async Task HandleAsync(CreateToDoSubTaskCommand command)
         {
             var dataStructure = _mapper.Map<SubTaskDataStructure>(command);
-            await _toDoListsService.AddSubTaskAsync(dataStructure, command.ListId, command.TaskId);
+            await _toDoListsService.AddSubTaskAsync(dataStructure, command.ListId, command.TaskId, command.UserId);
         }
     }
 }

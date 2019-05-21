@@ -64,7 +64,10 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
 
         public void StartProgress()
         {
-            ValidateStatus();
+            if (Status != ToDoListStatus.Created || Status != ToDoListStatus.OnHold)
+            {
+                throw new BusinessLogicException("invalid_list_status");
+            }
             Status = ToDoListStatus.InProgress;
         }
 

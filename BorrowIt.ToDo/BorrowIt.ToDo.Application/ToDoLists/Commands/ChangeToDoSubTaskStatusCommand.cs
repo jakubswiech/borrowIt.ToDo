@@ -9,5 +9,6 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Commands
         public Guid TaskId { get; set; }
         public Guid SubTaskId { get; set; }
         public int Status { get; set; }
+        public Guid? UserId { get; set; }
     }
 }
