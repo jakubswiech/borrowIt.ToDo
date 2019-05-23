@@ -18,7 +18,7 @@
     "BorrowIt.ToDo": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:6000",
+      "applicationUrl": "http://localhost:7000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
