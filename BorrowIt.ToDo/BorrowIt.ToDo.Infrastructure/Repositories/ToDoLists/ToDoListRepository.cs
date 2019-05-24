@@ -89,9 +89,9 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
                 filter = filter & (builder.Regex(x => x.Name, queryDataStructure.Name));
             }
 
-            if (queryDataStructure.Status.HasValue)
+            if (queryDataStructure.Statuses.Any())
             {
-                filter = filter & (builder.Eq(x => x.Status, queryDataStructure.Status.Value));
+                filter = filter & (builder.In(x => x.Status, queryDataStructure.Statuses));
             }
 
             return filter;

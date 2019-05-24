@@ -53,7 +53,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
         public void Complete()
         {
             ValidateStatus(Status != ToDoListStatus.OnHold);
-            if (!Tasks.Any() || Tasks.Any(x => x.Status != ToDoListStatus.Done))
+            if (Tasks.Any(x => x.Status != ToDoListStatus.Done))
             {
                 throw new BusinessLogicException("tasks_not_done");
             }
@@ -83,7 +83,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
 
         public void StartProgress()
         {
-            if (Status != ToDoListStatus.Created || Status != ToDoListStatus.OnHold)
+            if (Status != ToDoListStatus.Created && Status != ToDoListStatus.OnHold)
             {
                 throw new BusinessLogicException("invalid_list_status");
             }
