@@ -64,7 +64,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
 
         public void StartProgress()
         {
-            if (Status != ToDoListStatus.Created || Status != ToDoListStatus.OnHold)
+            if (Status != ToDoListStatus.Created && Status != ToDoListStatus.OnHold)
             {
                 throw new BusinessLogicException("invalid_list_status");
             }
