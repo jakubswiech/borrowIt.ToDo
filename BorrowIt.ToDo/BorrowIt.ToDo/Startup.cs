@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using BorrowIt.Common.Extensions;
 using BorrowIt.Common.Infrastructure.Abstraction;
 using BorrowIt.Common.Infrastructure.Implementations;
 using BorrowIt.Common.Infrastructure.IoC;
@@ -97,6 +98,7 @@ namespace BorrowIt.ToDo
                 .AddGenericRepository(typeof(GenericMongoRepository<,>));
             builder.RegisterAssemblyTypes(typeof(UserChangedEventHandler).Assembly)
                 .AsClosedTypesOf(typeof(IMessageHandler<>));
+            builder.AddSerilog();
             builder.AddServices<IToDoListsService>();
             builder.RegisterAssemblyTypes(typeof(CreateToDoListCommand).Assembly)
                 .AsClosedTypesOf(typeof(ICommandHandler<>));
@@ -137,9 +139,9 @@ namespace BorrowIt.ToDo
                 c.AllowAnyMethod();
                 c.AllowAnyOrigin();
             });
+            app.UseApiExceptionMiddleware();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
