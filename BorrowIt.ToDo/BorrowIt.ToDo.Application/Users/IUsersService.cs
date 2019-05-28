@@ -9,6 +9,7 @@ namespace BorrowIt.ToDo.Application.Users
     {
         Task AddUserAsync(UserDataStructure userDataStructure);
         Task UpdateUserAsync(UserDataStructure userDataStructure);
+        Task RemoveUserAsync(Guid id);
         Task<bool> UserExists(Guid id);
     }
 }

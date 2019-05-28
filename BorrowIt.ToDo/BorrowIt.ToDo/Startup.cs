@@ -158,7 +158,8 @@ namespace BorrowIt.ToDo
             app.UseMvc();
             
             app.UseRabbitMq()
-                .SubscribeMessage<UserChangedEvent>();
+                .SubscribeMessage<UserChangedEvent>()
+                .SubscribeMessage<UserRemovedEvent>();
         }
     }
 }

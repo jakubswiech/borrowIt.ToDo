@@ -73,7 +73,7 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
 
         private FilterDefinition<ToDoListEntity> ApplyWhereStatement(FilterDefinitionBuilder<ToDoListEntity> builder, ListQueryDataStructure queryDataStructure)
         {
-            FilterDefinition<ToDoListEntity> filter = builder.Empty;
+            FilterDefinition<ToDoListEntity> filter = builder.Ne(x => x.Status, (int) ToDoListStatus.Archived);
             if (queryDataStructure.Id.HasValue)
             {
                 filter = filter & (builder.Eq(x => x.Id, queryDataStructure.Id.Value));
@@ -89,7 +89,7 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
                 filter = filter & (builder.Regex(x => x.Name, queryDataStructure.Name));
             }
 
-            if (queryDataStructure.Statuses.Any())
+            if (queryDataStructure.Statuses != null && queryDataStructure.Statuses.Any())
             {
                 filter = filter & (builder.In(x => x.Status, queryDataStructure.Statuses));
             }
@@ -97,9 +97,15 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
             return filter;
         }
 
-        public async Task<ToDoList> GetOneAsync(Guid id)    
+        public async Task<ToDoList> GetOneAsync(Guid id)
         {
-            var list = await _toDoListMongoRepository.GetAsync(id);
+            var list = (await _toDoListMongoRepository.GetWithExpressionAsync(x => x.Id == id)).SingleOrDefault();
+
+            if (list == null)
+            {
+                return null;
+            }
+            
             
             var tasks = (await _toDoTaskMongoRepository.GetWithExpressionAsync(x => x.ListId == list.Id)).ToList();
             list.InsertTasks(tasks);

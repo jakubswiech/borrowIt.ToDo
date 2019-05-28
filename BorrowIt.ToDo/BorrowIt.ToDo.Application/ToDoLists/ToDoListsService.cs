@@ -307,6 +307,16 @@ namespace BorrowIt.ToDo.Application.ToDoLists
             await _toDoListRepository.PersistAsync(list);
         }
 
+        public async Task DeleteAllUserLists(Guid userId)
+        {
+            var lists = (await _toDoListRepository.GetAllAsync(new ListQueryDataStructure() {UserId = userId})).ToList();
+
+            foreach (var list in lists)
+            {
+                await DeleteListAsync(list.Id, userId);
+            }
+        }
+
         private async Task<ToDoList> GetOneOrThrowAsync(Guid id)
         {
             var toDoList = await _toDoListRepository.GetOneAsync(id);

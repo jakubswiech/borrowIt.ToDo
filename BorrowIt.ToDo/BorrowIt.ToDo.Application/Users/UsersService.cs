@@ -41,6 +41,16 @@ namespace BorrowIt.ToDo.Application.Users
             await _userRepository.UpdateAsync(user);
         }
 
+        public async Task RemoveUserAsync(Guid id)
+        {
+            var user = await _userRepository.GetAsync(id);
+            if (user == null)
+            {
+                throw new BusinessLogicException("user_not_found");
+            }
+            await _userRepository.RemoveAsync(user);
+        }
+
         public async Task<bool> UserExists(Guid id)
             => await _userRepository.GetAsync(id) != null;
     }
