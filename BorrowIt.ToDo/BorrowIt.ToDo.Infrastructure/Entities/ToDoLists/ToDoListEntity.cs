@@ -5,9 +5,8 @@ using BorrowIt.Common.Mongo.Models;
 namespace BorrowIt.ToDo.Infrastructure.Entities.ToDoLists
 {
     [MongoEntity("ToDoLists")]
-    public class ToDoListEntity : IMongoEntity
+    public class ToDoListEntity : MongoEntity
     {
-        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string Name { get; set; }
         public DateTime CreateDate { get; set; }

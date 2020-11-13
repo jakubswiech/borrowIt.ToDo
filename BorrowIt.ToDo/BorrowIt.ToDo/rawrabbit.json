@@ -1,6 +1,6 @@
 {
-  "Username": "rabbitmq",
-  "Password": "rabbitmq",
+  "Username": "rabbitMq",
+  "Password": "rabbitMq",
   "VirtualHost": "/",
   "Port": 5672,
   "Hostnames": [

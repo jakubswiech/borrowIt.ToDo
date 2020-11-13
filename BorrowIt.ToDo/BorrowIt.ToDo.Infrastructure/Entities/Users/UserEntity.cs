@@ -6,10 +6,8 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace BorrowIt.ToDo.Infrastructure.Entities.Users
 {
     [MongoEntity("Users")]
-    public class UserEntity : IMongoEntity
+    public class UserEntity : MongoEntity
     {
-        [BsonId]
-        public Guid Id { get; set; }
         public string UserName { get; set; }
     }
 }

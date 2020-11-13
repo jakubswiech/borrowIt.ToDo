@@ -6,10 +6,8 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace BorrowIt.ToDo.Infrastructure.Entities.ToDoSubTasks
 {
     [MongoEntity("ToDoSubTasks")]
-    public class ToDoSubTaskEntity : IMongoEntity
+    public class ToDoSubTaskEntity : MongoEntity
     {
-        [BsonId]
-        public Guid Id { get; set; }
         public Guid TaskId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
