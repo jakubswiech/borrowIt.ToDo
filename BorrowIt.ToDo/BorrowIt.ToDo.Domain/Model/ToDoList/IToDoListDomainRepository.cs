@@ -12,5 +12,6 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
         Task<ToDoList> PersistAsync(ToDoList toDoList);
         Task<IEnumerable<ToDoList>> GetAllAsync(ListQueryDataStructure queryDataStructure = null);
         Task<ToDoList> GetOneAsync(Guid id);
+        Task<IEnumerable<ToDoList>> GetAllEndingToDoListsAsync();
     }
 }

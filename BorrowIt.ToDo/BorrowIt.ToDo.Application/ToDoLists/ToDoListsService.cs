@@ -2,8 +2,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using BorrowIt.Common.Exceptions;
+using BorrowIt.Common.Rabbit.Abstractions;
 using BorrowIt.ToDo.Domain.Model.ToDoList;
 using BorrowIt.ToDo.Domain.Model.ToDoList.DataStructures;
+using BorrowIt.ToDo.Domain.Model.ToDoList.Events;
 using BorrowIt.ToDo.Domain.Model.ToDoList.Factories;
 using BorrowIt.ToDo.Domain.Model.Users;
 using BorrowIt.ToDo.Infrastructure.Repositories.Users;
@@ -14,13 +16,15 @@ namespace BorrowIt.ToDo.Application.ToDoLists
     {
         private readonly IToDoListDomainRepository _toDoListRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IBusPublisher _publisher;
         private readonly IListFactory _toDoListFactory;
 
-        public ToDoListsService(IToDoListDomainRepository toDoListRepository, IListFactory toDoListFactory, IUserRepository userRepository)
+        public ToDoListsService(IToDoListDomainRepository toDoListRepository, IListFactory toDoListFactory, IUserRepository userRepository, IBusPublisher publisher)
         {
-            _toDoListRepository = toDoListRepository;
-            _toDoListFactory = toDoListFactory;
-            _userRepository = userRepository;
+            _toDoListRepository = toDoListRepository ?? throw new ArgumentNullException(nameof(toDoListRepository));
+            _toDoListFactory = toDoListFactory ?? throw new ArgumentNullException(nameof(toDoListFactory));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
         }
         
         public async Task AddListAsync(ListDataStructure dataStructure)
@@ -37,7 +41,7 @@ namespace BorrowIt.ToDo.Application.ToDoLists
             var toDoList = await GetOneOrThrowAsync(dataStructure.Id?? new Guid());
             
             ValidateUserAsync(toDoList.UserId, dataStructure.UserId);
-            toDoList.Update(dataStructure.Name);
+            toDoList.Update(dataStructure.Name, dataStructure.FinishUntilDate);
 
             await _toDoListRepository.PersistAsync(toDoList);
         }
@@ -314,6 +318,16 @@ namespace BorrowIt.ToDo.Application.ToDoLists
             foreach (var list in lists)
             {
                 await DeleteListAsync(list.Id, userId);
+            }
+        }
+
+        public async Task NotifyAllEndingToDoLists()
+        {
+            var toDoLists = await _toDoListRepository.GetAllEndingToDoListsAsync();
+
+            foreach (var toDoList in toDoLists)
+            {
+                await _publisher.PublishAsync(new ToDoListHourLeftEvent(toDoList.Id, toDoList.Name, toDoList.UserId));
             }
         }
 

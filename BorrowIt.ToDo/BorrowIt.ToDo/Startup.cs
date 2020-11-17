@@ -17,6 +17,8 @@ using BorrowIt.ToDo.Application.ToDoLists.Mappings;
 using BorrowIt.ToDo.Application.ToDoLists.Queries;
 using BorrowIt.ToDo.Application.ToDoLists.ReadModels;
 using BorrowIt.ToDo.Application.Users.Handlers;
+using BorrowIt.ToDo.Application.Users.Handlers.Messages;
+using BorrowIt.ToDo.Application.Workers;
 using BorrowIt.ToDo.Domain.Model.Users;
 using BorrowIt.ToDo.Infrastructure.Entities.ToDoLists;
 using BorrowIt.ToDo.Infrastructure.Inboud.Messages;
@@ -45,6 +47,7 @@ namespace BorrowIt.ToDo
         {
             services.AddControllers();
             services.AddCors();
+            services.AddHostedService<ToDoListExecutionTimeWatcher>();
             services.AddSwaggerGen(ctx =>
             {
 

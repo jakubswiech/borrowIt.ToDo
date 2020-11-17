@@ -11,6 +11,7 @@ namespace BorrowIt.ToDo.Infrastructure.Entities.ToDoLists
         public string Name { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ModifyDate { get; set; }
+        public DateTime FinishUntilDate { get; set; }
         public int Status { get; set; }
     }
 }

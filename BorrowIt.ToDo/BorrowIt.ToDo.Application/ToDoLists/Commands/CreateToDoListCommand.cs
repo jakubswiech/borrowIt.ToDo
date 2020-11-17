@@ -7,5 +7,6 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Commands
     {
         public string Name { get; set; }
         public Guid UserId { get; set; }
+        public DateTime FinishUntilDate { get; set; }
     }
 }

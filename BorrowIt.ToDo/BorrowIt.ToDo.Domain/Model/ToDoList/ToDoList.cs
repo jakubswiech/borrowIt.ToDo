@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BorrowIt.Common.Domain;
 using BorrowIt.Common.Exceptions;
 using BorrowIt.Common.Extensions;
@@ -15,6 +14,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
         public string Name { get; private set; }
         public DateTime CreateDate { get; private set; }
         public DateTime ModifyDate { get; private set; }
+        public DateTime FinishUntilDate { get; private set; }
         public ToDoListStatus Status { get; private set; }
 
         private List<ToDoTask> _tasks = new List<ToDoTask>();
@@ -25,7 +25,7 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             private set => _tasks = value.ToList();
         }
         
-        public ToDoList(Guid id, Guid userId, string name)
+        public ToDoList(Guid id, Guid userId, string name, DateTime finishUntilDate)
         {
             Id = id;
             UserId = userId;
@@ -33,12 +33,14 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             CreateDate = DateTime.UtcNow;
             ModifyDate = CreateDate;
             Status = ToDoListStatus.Created;
+            FinishUntilDate = finishUntilDate;
         }
 
-        public void Update(string name)
+        public void Update(string name, DateTime finishUntilDate)
         {
             SetName(name);
             ModifyDate = DateTime.UtcNow;
+            FinishUntilDate = finishUntilDate;
         }
         
         public void MarkAsArchived()

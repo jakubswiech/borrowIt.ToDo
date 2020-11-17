@@ -30,5 +30,6 @@ namespace BorrowIt.ToDo.Application.ToDoLists
         Task DeleteSubTaskAsync(Guid listId, Guid taskId, Guid subTaskId, Guid userId);
         Task CompleteSubTaskAsync(Guid listId, Guid taskId, Guid subTaskId, Guid userId);
         Task DeleteAllUserLists(Guid userId);
+        Task NotifyAllEndingToDoLists();
     }
 }

@@ -119,7 +119,9 @@ namespace BorrowIt.ToDo.Infrastructure.Repositories.ToDoLists
 
             return list;
         }
-        
+        public async Task<IEnumerable<ToDoList>> GetAllEndingToDoListsAsync() 
+            => await _toDoListMongoRepository.GetWithExpressionAsync(x => x.FinishUntilDate <= DateTime.UtcNow.AddHours(1));
+
         private async Task PersistTasksAsync(IEnumerable<ToDoTask> tasks)
         {
             foreach (var task in tasks)
