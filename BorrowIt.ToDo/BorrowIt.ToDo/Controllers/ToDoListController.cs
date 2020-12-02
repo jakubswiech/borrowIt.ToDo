@@ -6,6 +6,7 @@ using BorrowIt.Common.Infrastructure.Abstraction;
 using BorrowIt.ToDo.Application.ToDoLists.Commands;
 using BorrowIt.ToDo.Application.ToDoLists.DTOs;
 using BorrowIt.ToDo.Application.ToDoLists.Queries;
+using BorrowIt.ToDo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,52 +22,51 @@ namespace BorrowIt.ToDo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateToDoListCommand command)
+        public async Task<IActionResult> Post([FromBody] CreateToDoListViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
+            var userId = new Guid(User.Identity.Name);
+            var command = new CreateToDoListCommand(viewModel.Name, viewModel.FinishUntilDate, userId);
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
         
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] UpdateToDoListCommand command)
+        public async Task<IActionResult> Put([FromBody] UpdateToDoListViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
+            var userId = new Guid(User.Identity.Name);
+            var command = new UpdateToDoListCommand(viewModel.Id, viewModel.Name, userId);
             
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
         [HttpPut("ChangeStatus")]
-        public async Task<IActionResult> Put([FromBody] ChangeToDoListStatusCommand command)
+        public async Task<IActionResult> Put([FromBody] ChangeToDoListStatusViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
+            var userId = new Guid(User.Identity.Name);
+            var command = new ChangeToDoListStatusCommand(viewModel.ListId, viewModel.Status, userId);
             
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
-        
+
         [HttpPost("Tasks")]
-        public async Task<IActionResult> Post([FromBody] CreateToDoTaskCommand command)
+        public async Task<IActionResult> Post([FromBody] CreateToDoTaskViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
-            
-            command.Id = command.Id ?? Guid.NewGuid();
+            var userId = new Guid(User.Identity.Name);
+            var command = new CreateToDoTaskCommand(viewModel.ListId, viewModel.Name, viewModel.Description, userId);
+
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
         [HttpPut("Tasks")]
-        public async Task<IActionResult> Put([FromBody] UpdateToDoTaskCommand command)
+        public async Task<IActionResult> Put([FromBody] UpdateToDoTaskViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
+            var userId = new Guid(User.Identity.Name);
+            var command = new UpdateToDoTaskCommand(viewModel.Id, viewModel.ListId, viewModel.Name, viewModel.Description, userId);
             
             await CommandDispatcher.DispatchAsync(command);
 
@@ -74,42 +74,41 @@ namespace BorrowIt.ToDo.Controllers
         }
 
         [HttpPut("Tasks/ChangeStatus")]
-        public async Task<IActionResult> Put([FromBody] ChangeToDoTaskStatusCommand command)
+        public async Task<IActionResult> Put([FromBody] ChangeToDoTaskStatusViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
+            var userId = new Guid(User.Identity.Name);
+            var command = new ChangeToDoTaskStatusCommand(viewModel.ListId, viewModel.TaskId, viewModel.Status, userId);
             
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
         [HttpPost("SubTasks")]
-        public async Task<IActionResult> Post([FromBody] CreateToDoSubTaskCommand command)
+        public async Task<IActionResult> Post([FromBody] CreateToDoSubTaskViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
-            
-            command.Id = command.Id ?? Guid.NewGuid();
+            var userId = new Guid(User.Identity.Name);
+            var command = new CreateToDoSubTaskCommand(viewModel.ListId, viewModel.TaskId, viewModel.Name, viewModel.Description, userId);
+
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
 
         [HttpPut("SubTasks")]
-        public async Task<IActionResult> Put([FromBody] UpdateToDoSubTaskCommand command)
+        public async Task<IActionResult> Put([FromBody] UpdateToDoSubTaskViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
+            var userId = new Guid(User.Identity.Name);
+            var command = new UpdateToDoSubTaskCommand(viewModel.Id, viewModel.Name, viewModel.Description, userId, viewModel.ListId, viewModel.TaskId);
             
             await CommandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
         [HttpPut("SubTasks/ChangeStatus")]
-        public async Task<IActionResult> Put([FromBody] ChangeToDoSubTaskStatusCommand command)
+        public async Task<IActionResult> Put([FromBody] ChangeToDoSubTaskStatusViewModel viewModel)
         {
-            var userId = User.Identity.Name;
-            command.UserId = new Guid(userId);
+            var userId = new Guid(User.Identity.Name);
+            var command = new ChangeToDoSubTaskStatusCommand(viewModel.ListId, viewModel.TaskId, viewModel.SubTaskId, viewModel.Status, userId);
             
             await CommandDispatcher.DispatchAsync(command);
 

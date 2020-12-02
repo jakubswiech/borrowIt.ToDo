@@ -80,8 +80,6 @@ namespace BorrowIt.ToDo
                         ValidateAudience = false
                     };
                 });
-            
-            var builder = new ContainerBuilder();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -108,7 +106,11 @@ namespace BorrowIt.ToDo
                 };
 
                 var mapperConfig = new MapperConfiguration(x =>
-                    x.AddProfiles(assemblies));
+                {
+                    x.DisableConstructorMapping();
+                    x.AddProfiles(assemblies);
+                });
+                    
 
                 return mapperConfig.CreateMapper();
             }).As<IMapper>().InstancePerLifetimeScope();
@@ -140,6 +142,7 @@ namespace BorrowIt.ToDo
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseRabbitMq()

@@ -5,10 +5,19 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Commands
 {
     public class CreateToDoTaskCommand : ICommand
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Guid? UserId { get; set; }
-        public Guid? Id { get; set; }
-        public Guid ListId { get; set; }
+        public string Name { get; }
+        public string Description { get; }
+        public Guid? UserId { get; }
+        public Guid Id { get; }
+        public Guid ListId { get; }
+
+        public CreateToDoTaskCommand(Guid listId, string name, string description, Guid? userId)
+        {
+            Name = name;
+            Description = description;
+            UserId = userId;
+            Id = Guid.NewGuid();
+            ListId = listId;
+        }
     }
 }

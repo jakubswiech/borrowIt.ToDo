@@ -34,13 +34,29 @@ namespace BorrowIt.ToDo.Domain.Model.ToDoList
             ModifyDate = CreateDate;
             Status = ToDoListStatus.Created;
             FinishUntilDate = finishUntilDate;
+            SetFinishUntilDate(finishUntilDate);
+        }
+
+        private ToDoList()
+        {
+
+        }
+
+        private void SetFinishUntilDate(DateTime finishUntilDate)
+        {
+            if (finishUntilDate < DateTime.UtcNow)
+            {
+                throw new BusinessLogicException("finishUntilDate_should_be_greater_than_now");
+            }
+
+            FinishUntilDate = finishUntilDate;
         }
 
         public void Update(string name, DateTime finishUntilDate)
         {
             SetName(name);
             ModifyDate = DateTime.UtcNow;
-            FinishUntilDate = finishUntilDate;
+            SetFinishUntilDate(finishUntilDate);
         }
         
         public void MarkAsArchived()

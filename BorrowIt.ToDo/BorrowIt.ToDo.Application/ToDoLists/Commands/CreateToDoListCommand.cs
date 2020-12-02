@@ -5,8 +5,17 @@ namespace BorrowIt.ToDo.Application.ToDoLists.Commands
 {
     public class CreateToDoListCommand : ICommand
     {
-        public string Name { get; set; }
-        public Guid UserId { get; set; }
-        public DateTime FinishUntilDate { get; set; }
+        public Guid Id { get; }
+        public string Name { get; }
+        public Guid UserId { get; }
+        public DateTime FinishUntilDate { get; }
+
+        public CreateToDoListCommand(string name, DateTime finishUntilDate, Guid userId)
+        {
+            Name = name;
+            UserId = userId;
+            FinishUntilDate = finishUntilDate;
+            Id = Guid.NewGuid();
+        }
     }
 }

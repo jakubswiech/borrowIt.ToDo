@@ -4,7 +4,7 @@
   "VirtualHost": "/",
   "Port": 5672,
   "Hostnames": [
-    "localhost"
+    "172.20.0.4"
   ],
   "RequestTimeout": "00:00:10",
   "PublishConfirmTimeout": "00:00:01",
@@ -17,5 +17,6 @@
     "Durable": true,
     "AutoDelete": true,
     "Type": "Topic"
-  }
+  },
+  "QueueNameSuffix": "ToDo"
 }
