@@ -15,6 +15,11 @@ namespace BorrowIt.ToDo.Domain.Model.Users
             
         }
 
+        private User()
+        {
+
+        }
+
         public void Update(string userName)
         {
             SetUserName(userName);
