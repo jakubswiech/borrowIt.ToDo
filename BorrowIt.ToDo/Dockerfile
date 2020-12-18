@@ -5,10 +5,10 @@ WORKDIR /app
 COPY . ./
 
 # Copy csproj and restore as distinct layers
-RUN dotnet restore --configfile ./nuget.config ./BorrowIt.ToDo/BorrowIt.ToDo.csproj
-RUN dotnet restore --configfile ./nuget.config ./BorrowIt.ToDo.Application/BorrowIt.ToDo.Application.csproj
-RUN dotnet restore --configfile ./nuget.config ./BorrowIt.ToDo.Domain/BorrowIt.ToDo.Domain.csproj
-RUN dotnet restore --configfile ./nuget.config ./BorrowIt.ToDo.Infrastructure/BorrowIt.ToDo.Infrastructure.csproj
+RUN dotnet restore ./BorrowIt.ToDo/BorrowIt.ToDo.csproj
+RUN dotnet restore ./BorrowIt.ToDo.Application/BorrowIt.ToDo.Application.csproj
+RUN dotnet restore ./BorrowIt.ToDo.Domain/BorrowIt.ToDo.Domain.csproj
+RUN dotnet restore ./BorrowIt.ToDo.Infrastructure/BorrowIt.ToDo.Infrastructure.csproj
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
